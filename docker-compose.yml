@@ -1,0 +1,25 @@
+version: '3'
+services:
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=lamp-db
+      - MYSQL_USER=lamp-user
+      - MYSQL_PASSWORD=mypassword
+      - MYSQL_ROOT_PASSWORD=rootpassword
+  web:
+    depends_on:
+      - db
+    image: nginx:stable-alpine3.17-slim
+    volumes:
+      - "./:/var/www/html"
+    ports:
+      - 8083:80
+  web2:
+    depends_on:
+      - db
+    image: httpd:latest
+    volumes:
+      - "./:/var/www/html"
+    ports: 
+      - 443:443
